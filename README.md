@@ -25,7 +25,7 @@
 
 点击下方链接安装脚本：
 
-**[点击安装脚本](https://greasyfork.org/scripts/脚本ID)**
+**[点击安装脚本](https://greasyfork.org/scripts/555404)**
 
 或者直接访问 Greasyfork 搜索 "123pan秒传JSON生成器"
 

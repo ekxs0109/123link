@@ -1,14 +1,22 @@
 // ==UserScript==
 // @name         123pan秒传JSON生成器（夸克网盘/天翼云盘）
-// @namespace    http://tampermonkey.net/
+// @name:zh-CN   123pan秒传JSON生成器（夸克网盘/天翼云盘）
+// @name:en      123pan RapidTransfer JSON Generator (Quark/Tianyi Cloud)
+// @namespace    https://github.com/ekxs0109/123link
 // @version      1.0.0
-// @description  夸克网盘、天翼云盘生成123云盘（123pan）的秒传JSON工具
+// @description  一键生成123云盘秒传JSON，支持夸克网盘、天翼云盘的个人文件和分享链接，配合123FastLink使用
+// @description:zh-CN  一键生成123云盘秒传JSON，支持夸克网盘、天翼云盘的个人文件和分享链接，配合123FastLink使用
+// @description:en  One-click generation of 123pan rapid transfer JSON, supports Quark and Tianyi Cloud personal files and share links, works with 123FastLink
 // @author       ekxs
+// @homepage     https://github.com/ekxs0109/123link
+// @supportURL   https://github.com/ekxs0109/123link/issues
+// @license      Apache-2.0
 // @match        https://pan.quark.cn/*
 // @match        https://drive.quark.cn/*
 // @match        https://pan.quark.cn/s/*
 // @match        https://drive.quark.cn/s/*
 // @match        https://cloud.189.cn/web/*
+// @icon         data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZmlsbD0iIzRjYWY1MCIgZD0iTTI0IDRDMTIuOTUgNCA0IDEyLjk1IDQgMjRzOC45NSAyMCAyMCAyMCAyMC04Ljk1IDIwLTIwUzM1LjA1IDQgMjQgNHptLTQgMzBsLTgtOCAyLjgzLTIuODNMNTIgMjQuMzRsNi4xNy02LjE3TDYxIDIxbC0xMSAxMXoiLz48L3N2Zz4=
 // @grant        GM_setClipboard
 // @grant        GM_notification
 // @grant        GM_xmlhttpRequest
