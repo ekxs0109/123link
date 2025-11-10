@@ -3,7 +3,7 @@
 // @name:zh-CN   123pan秒传JSON生成器（夸克网盘/天翼云盘）
 // @name:en      123pan RapidTransfer JSON Generator (Quark/Tianyi Cloud)
 // @namespace    https://github.com/ekxs0109/123link
-// @version      1.0.2
+// @version      1.0.3
 // @description  一键生成123云盘秒传JSON，支持夸克网盘、天翼云盘的个人文件和分享链接，配合123FastLink使用
 // @description:zh-CN  一键生成123云盘秒传JSON，支持夸克网盘、天翼云盘的个人文件和分享链接，配合123FastLink使用
 // @description:en  One-click generation of 123pan rapid transfer JSON, supports Quark and Tianyi Cloud personal files and share links, works with 123FastLink
@@ -425,7 +425,6 @@
                     );
                 }
 
-                debugger
                 return {
                     stoken: result.data.stoken,
                     title: result.data.title || ""
@@ -1186,7 +1185,6 @@
                     throw new Error("该分享需要提取码，请输入提取码");
                 throw new Error(`获取分享信息失败: ${data.res_message || "未知错误"}`);
             }
-            debugger
 
             return {
                 shareId: data.shareId || shareId,
