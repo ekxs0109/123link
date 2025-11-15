@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         123pan秒传JSON生成器（夸克网盘/天翼云盘）
-// @name:zh-CN   123pan秒传JSON生成器（夸克网盘/天翼云盘）
+// @name         123云盘秒传JSON生成器（夸克网盘/天翼云盘）
+// @name:zh-CN   123云盘秒传JSON生成器（夸克网盘/天翼云盘）
 // @name:en      123pan RapidTransfer JSON Generator (Quark/Tianyi Cloud)
 // @namespace    https://github.com/ekxs0109/123link
-// @version      1.0.3
+// @version      1.0.4
 // @description  一键生成123云盘秒传JSON，支持夸克网盘、天翼云盘的个人文件和分享链接，配合123FastLink使用
 // @description:zh-CN  一键生成123云盘秒传JSON，支持夸克网盘、天翼云盘的个人文件和分享链接，配合123FastLink使用
 // @description:en  One-click generation of 123pan rapid transfer JSON, supports Quark and Tianyi Cloud personal files and share links, works with 123FastLink
@@ -465,10 +465,21 @@
                     }
 
                     if (result?.data) {
-                        const filesWithPath = result.data.map((file) => ({
-                            ...file,
-                            path: pathMap[file.fid] || file.file_name,
-                        }));
+                        const filesWithPath = result.data.map((file) => {
+                            const newFile = {
+                                ...file,
+                                path: pathMap[file.fid] || file.file_name,
+                            };
+
+                            let md5 = newFile.md5 || newFile.hash || newFile.etag || "";
+                            md5 = this.decodeMd5(md5);
+
+                            if (md5) {
+                                newFile.md5 = md5;
+                            }
+
+                            return newFile;
+                        });
                         data.push(...filesWithPath);
                     }
 
@@ -623,23 +634,8 @@
                             const fid = fids[idx];
                             if (!fid) return;
 
-
                             let md5 = item.md5 || item.hash || "";
-
-                            if (md5 && md5.includes("==")) {
-                                try {
-                                    const binaryString = atob(md5);
-                                    if (binaryString.length === 16) {
-                                        md5 = Array.from(binaryString, (char) =>
-                                            char.charCodeAt(0).toString(16).padStart(2, "0"),
-                                        ).join("");
-                                    } else {
-                                        md5 = "";
-                                    }
-                                } catch (e) {
-                                    md5 = "";
-                                }
-                            }
+                            md5 = utils.decodeMd5(md5);
 
                             md5Map[fid] = md5;
                         });
@@ -926,9 +922,8 @@
                 <div style="font-size: 20px; font-weight: 600; margin-bottom: 16px; color: #333; text-align: center;">脚本更新 v${version}</div>
                 <div style="font-size: 15px; color: #555; margin-bottom: 24px;">
                     <ul style="margin: 0; padding-left: 20px;">
-                        <li style="margin-bottom: 10px;"><strong>修复</strong>：解决了夸克分享页单独勾选文件时生成失败的问题。</li>
-                        <li style="margin-bottom: 10px;"><strong>优化</strong>：下载的JSON文件将以分享标题命名，便于识别。</li>
-                        <li style="margin-bottom: 10px;"><strong>新增</strong>：添加了版本更新提示。</li>
+                        <li style="margin-bottom: 10px;"><strong>修复</strong>：修复了夸克网盘个人文件和分享链接中Base64编码的MD5值无法正确解析的问题。</li>
+                        <li style="margin-bottom: 10px;"><strong>优化</strong>：将MD5解码逻辑提取为独立工具函数，提高代码可维护性。</li>
                     </ul>
                 </div>
                 <div style="text-align: center;">
@@ -971,6 +966,23 @@
                 case "B":
                 default:
                     return Math.round(size);
+            }
+        },
+
+        decodeMd5(md5) {
+            if (!md5 || !md5.includes("==")) {
+                return md5 || "";
+            }
+            try {
+                const binaryString = atob(md5);
+                if (binaryString.length === 16) {
+                    return Array.from(binaryString, (char) =>
+                        char.charCodeAt(0).toString(16).padStart(2, "0"),
+                    ).join("");
+                }
+                return "";
+            } catch (e) {
+                return "";
             }
         },
     };
